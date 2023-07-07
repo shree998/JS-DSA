@@ -33,7 +33,10 @@ class MaxHeap {
         console.log(this.array[i])
       }
     }
-    
+     getSize()
+  {
+    return this.heapSize;
+  }
     heapify(){
         let current = 0;
         let left = this.left(current);
