@@ -69,10 +69,12 @@ class MinHeap {
             return;
         }
         if(this.heapSize == 1){
+            this.array.splice(this.heapSize-1)
             this.heapSize-=1;
             return removedVal
         }
             this.array[0] = this.array[this.heapSize-1];
+        this.array.splice(this.heapSize-1)
               this.heapSize-=1;
              this.heapify()
             return removedVal
