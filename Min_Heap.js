@@ -73,6 +73,17 @@ class MinHeap {
             this.heapSize-=1;
             return removedVal
         }
+         if(this.heapSize == 3){
+        this.array[0] = this.array[this.heapSize-1];
+        this.array.splice(this.heapSize-1)
+            if(this.array[0]>this.array[1])
+            {
+                [this.array[0],this.array[1]] = [this.array[1],this.array[0]]
+            }
+              this.heapSize-=1;
+              return removedVal;
+            
+        }
             this.array[0] = this.array[this.heapSize-1];
         this.array.splice(this.heapSize-1)
               this.heapSize-=1;
