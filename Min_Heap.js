@@ -31,7 +31,7 @@ class MinHeap {
         return this.array[0]
     }
 
-    printArr()
+    print()
     {
       for(let i=0; i<this.heapSize; i++)
       {
@@ -39,56 +39,78 @@ class MinHeap {
       }
     }
     
-    heapify(){
-        let current = 0;
-        let left = this.left(current);
-        let right = this.right(current);
-        
-        while(this.array[left] && this.array[right] && (this.array[left]<this.array[current] || this.array[right]<this.array[current]))
-        {
-            if(this.array[left] < this.array[right])
-            {
-                [this.array[left], this.array[current]] = [this.array[current], this.array[left]]
-                current = left
-            }
-            else{
-                 [this.array[right], this.array[current]] = [this.array[current], this.array[right]]
-                 current = right;
-            }
-            
-            left = this.left(current);
-            right = this.right(current)
-        }
+      bubbleUp(index) {
+    while (index > 0 && this.array[index] < this.array[this.parent(index)]) {
+      [this.array[index], this.array[this.parent(index)]] = [
+        this.array[this.parent(index)],
+        this.array[index],
+      ];
+      index = this.parent(index);
     }
+  }
+ 
+  bubbleDown(index) {
+    let left = this.left(index);
+    let right = this.right(index);
+    let smallest = index;
+ 
+    if (
+      left < this.heapSize &&
+      this.array[left] < this.array[smallest]
+    ) {
+      smallest = left;
+    }
+ 
+    if (
+      right < this.heapSize &&
+      this.array[right] < this.array[smallest]
+    ) {
+      smallest = right;
+    }
+ 
+    if (smallest !== index) {
+      [this.array[index], this.array[smallest]] = [
+        this.array[smallest],
+        this.array[index],
+      ];
+      this.bubbleDown(smallest);
+    }
+  }
+    
+    // heapify(){
+    //     let current = 0;
+    //     let left = this.left(current);
+    //     let right = this.right(current);
+        
+    //     while(this.array[left] && this.array[right] && (this.array[left]<this.array[current] || this.array[right]<this.array[current]))
+    //     {
+    //         if(this.array[left] < this.array[right])
+    //         {
+    //             [this.array[left], this.array[current]] = [this.array[current], this.array[left]]
+    //             current = left
+    //         }
+    //         else{
+    //              [this.array[right], this.array[current]] = [this.array[current], this.array[right]]
+    //              current = right;
+    //         }
+            
+    //         left = this.left(current);
+    //         right = this.right(current)
+    //     }
+    // }
     
     remove(){
-         let removedVal = this.array[0];
-        if(this.heapSize == -1||this.heapSize == 0)
+         
+        if(this.heapSize <= 0)
         {
             console.log('The Heap is empty')
             return;
         }
-        if(this.heapSize == 1){
-            this.array.splice(this.heapSize-1)
-            this.heapSize-=1;
-            return removedVal
-        }
-         if(this.heapSize == 3){
-        this.array[0] = this.array[this.heapSize-1];
-        this.array.splice(this.heapSize-1)
-            if(this.array[0]>this.array[1])
-            {
-                [this.array[0],this.array[1]] = [this.array[1],this.array[0]]
-            }
-              this.heapSize-=1;
-              return removedVal;
-            
-        }
+      let removedVal = this.array[0];
             this.array[0] = this.array[this.heapSize-1];
-        this.array.splice(this.heapSize-1)
               this.heapSize-=1;
-             this.heapify()
-            return removedVal
+             this.bubbleDown(0)
+            return removedVal;
      
     }
 
@@ -103,15 +125,9 @@ class MinHeap {
     this.array[currIndex]=val;
     
     this.heapSize+=1
+     this.bubbleUp(currIndex);
     
-    while(currIndex!==0 && this.array[this.parent(currIndex)]>this.array[currIndex])
-    {
-       
-        [this.array[currIndex],this.array[this.parent(currIndex)] ]= [this.array[this.parent(currIndex)],this.array[currIndex] ];
-       
-        currIndex = this.parent(currIndex)
-    }
-   
+ 
 }
 
 }
