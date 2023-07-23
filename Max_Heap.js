@@ -26,7 +26,7 @@ class MaxHeap {
         return this.array[0]
     }
 
-    printArr()
+    print()
     {
       for(let i=0; i<this.heapSize; i++)
       {
@@ -37,55 +37,94 @@ class MaxHeap {
   {
     return this.heapSize;
   }
-    heapify(){
-        let current = 0;
-        let left = this.left(current);
-        let right = this.right(current);
-        
-        while(this.array[left] && this.array[right] && (this.array[left]>this.array[current] || this.array[right]>this.array[current]))
-        {
-            if(this.array[left] > this.array[right])
-            {
-                [this.array[left], this.array[current]] = [this.array[current], this.array[left]]
-                current = left
-            }
-            else{
-                 [this.array[right], this.array[current]] = [this.array[current], this.array[right]]
-                 current = right;
-            }
-            
-            left = this.left(current);
-            right = this.right(current)
-        }
-    }
+
     
+    
+    // heapify(){
+    //     let current = 0;
+    //     let left = this.left(current);
+    //     let right = this.right(current);
+        
+    //     while(this.array[left] && this.array[right] && (this.array[left]>this.array[current] || this.array[right]>this.array[current]))
+    //     {
+    //         if(this.array[left] > this.array[right])
+    //         {
+    //             [this.array[left], this.array[current]] = [this.array[current], this.array[left]]
+    //             current = left
+    //         }
+    //         else{
+    //              [this.array[right], this.array[current]] = [this.array[current], this.array[right]]
+    //              current = right;
+    //         }
+            
+    //         left = this.left(current);
+    //         right = this.right(current)
+    //     }
+    // }
+    bubbleUp(index) {
+        while (index > 0 && this.array[index] > this.array[this.parent(index)]) {
+          [this.array[index], this.array[this.parent(index)]] = [
+            this.array[this.parent(index)],
+            this.array[index],
+          ];
+          index = this.parent(index);
+        }
+  }
+ 
+  bubbleDown(index) {
+    let left = this.left(index);
+    let right = this.right(index);
+    let largest = index;
+ 
+    if (
+      left < this.heapSize &&
+      this.array[left] > this.array[largest]
+    ) {
+      largest = left;
+    }
+ 
+    if (
+      right < this.heapSize &&
+      this.array[right] > this.array[largest]
+    ) {
+      largest = right;
+    }
+ 
+    if (largest !== index) {
+      [this.array[index], this.array[largest]] = [
+        this.array[largest],
+        this.array[index],
+      ];
+      this.bubbleDown(largest);
+    }
+  }
     remove(){
-         let removedVal = this.array[0];
-        if(this.heapSize == -1||this.heapSize == 0)
+        
+        if(this.heapSize<= 0)
         {
             console.log('The Heap is empty')
             return;
         }
-        if(this.heapSize == 1){
-            this.array.splice(this.heapSize-1)
-            this.heapSize-=1;
-            return removedVal
-        }
-         if(this.heapSize == 3){
-        this.array[0] = this.array[this.heapSize-1];
-        this.array.splice(this.heapSize-1)
-            if(this.array[0]<this.array[1])
-            {
-                [this.array[0],this.array[1]] = [this.array[1],this.array[0]]
-            }
-              this.heapSize-=1;
-              return removedVal;
+        // if(this.heapSize == 1){
+        //     this.array.splice(this.heapSize-1)
+        //     this.heapSize-=1;
+        //     return removedVal
+        // }
+        //  if(this.heapSize == 3){
+        // this.array[0] = this.array[this.heapSize-1];
+        // this.array.splice(this.heapSize-1)
+        //     if(this.array[0]<this.array[1])
+        //     {
+        //         [this.array[0],this.array[1]] = [this.array[1],this.array[0]]
+        //     }
+        //       this.heapSize-=1;
+        //       return removedVal;
             
-        }
+        // }
+         let removedVal = this.array[0];
             this.array[0] = this.array[this.heapSize-1];
-            this.array.splice(this.heapSize-1)
               this.heapSize-=1;
-             this.heapify()
+             this.bubbleDown(0)
             return removedVal
      
     }
@@ -102,13 +141,7 @@ class MaxHeap {
     
     this.heapSize+=1
     
-    while(currIndex!==0 && this.array[this.parent(currIndex)]<this.array[currIndex])
-    {
-       
-        [this.array[currIndex],this.array[this.parent(currIndex)] ]= [this.array[this.parent(currIndex)],this.array[currIndex] ];
-       
-        currIndex = this.parent(currIndex)
-    }
+   this.bubbleUp(currIndex)
    
 }
 
